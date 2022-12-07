@@ -3,13 +3,15 @@ package ru.shishov.onlinelibrary.models;
 public class Book {
     private String bookName;
     private String author;
-    private String year;
+    private int year;
+    private String book_id;
 
     public Book() {
 
     }
 
-    public Book(String bookName, String author, String year) {
+    public Book(String book_id, String bookName, String author, int year) {
+        this.book_id = book_id;
         this.bookName = bookName;
         this.author = author;
         this.year = year;
@@ -17,6 +19,14 @@ public class Book {
 
     public String getBookName() {
         return bookName;
+    }
+
+    public String getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(String book_id) {
+        this.book_id = book_id;
     }
 
     public void setBookName(String bookName) {
@@ -31,11 +41,11 @@ public class Book {
         this.author = author;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

@@ -9,7 +9,11 @@
 </head>
 <body>
 <div th:each="book : ${books}">
-    <a th:text="${book.getBookName()}"></a>, <a th:text="${book.getAuthor()}"></a>, <a th:text="${book.getYear()}"></a>
+    <a th:href="@{books/{id}(id=${book.getBook_id()})}" th:text="${book.getBookName()}"></a>,
+    <a th:href="@{books/{id}(id=${book.getBook_id()})}" th:text="${book.getAuthor()}"></a>,
+    <a th:href="@{books/{id}(id=${book.getBook_id()})}" th:text="${book.getYear()}"></a>
 </div>
+<div style="border-bottom: 1px solid grey"></div>
+<a th:href="@{/books/new}">Add book</a>
 </body>
 </html>
