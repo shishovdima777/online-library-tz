@@ -28,7 +28,6 @@ public class BooksController {
     }
     @PostMapping()
     public String addBook(@ModelAttribute("book") Book book) {
-        System.out.println(book);
         booksDAO.saveBook(book);
         return "redirect:/books";
     }

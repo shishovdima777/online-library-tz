@@ -10,12 +10,19 @@
 
 <style>
     h1 { display: inline}
+    a {display: block}
 </style>
 
 <body>
 <h1 th:text="${book.getBookName()}"></h1>,
 <h1 th:text="${book.getAuthor()}"></h1>,
 <h1 th:text="${book.getYear()}"></h1>
+
+<p>This book is available to take. To whom add this book?</p>
+
+<select th:each="person : ${people}">
+    <option th:text="person.getName()"></option>
+</select>
 
 <a th:href="@{{id}/edit(id=${book.getBook_id()})}">Edit book</a>
 <form th:method="DELETE" th:action="@{{id}(id=${book.getBook_id()})}">
