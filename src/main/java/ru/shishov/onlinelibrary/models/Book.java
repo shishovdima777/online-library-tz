@@ -4,28 +4,35 @@ public class Book {
     private String bookName;
     private String author;
     private int year;
-    private String book_id;
+    private int book_id;
+    private String person_id;
 
     public Book() {
 
     }
 
-    public Book(String book_id, String bookName, String author, int year) {
+    public Book(String person_id, int book_id, String bookName, String author, int year) {
+        this.person_id = person_id;
         this.book_id = book_id;
         this.bookName = bookName;
         this.author = author;
         this.year = year;
     }
-
+    public String getPerson_id() {
+        return person_id;
+    }
+    public void setPerson_id(String person_id) {
+        this.person_id = person_id;
+    }
     public String getBookName() {
         return bookName;
     }
 
-    public String getBook_id() {
+    public int getBook_id() {
         return book_id;
     }
 
-    public void setBook_id(String book_id) {
+    public void setBook_id(int book_id) {
         this.book_id = book_id;
     }
 
@@ -48,13 +55,14 @@ public class Book {
     public void setYear(int year) {
         this.year = year;
     }
-
     @Override
     public String toString() {
         return "Book{" +
                 "bookName='" + bookName + '\'' +
                 ", author='" + author + '\'' +
-                ", year='" + year + '\'' +
+                ", year=" + year +
+                ", book_id=" + book_id +
+                ", person_id=" + person_id +
                 '}';
     }
 }

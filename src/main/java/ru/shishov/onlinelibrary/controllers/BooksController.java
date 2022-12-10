@@ -5,16 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.shishov.onlinelibrary.dao.BooksDAO;
+import ru.shishov.onlinelibrary.dao.PeopleDAO;
 import ru.shishov.onlinelibrary.models.Book;
+import ru.shishov.onlinelibrary.models.Person;
 
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
     private final BooksDAO booksDAO;
+    private final PeopleDAO peopleDAO;
     @Autowired
-    public BooksController(BooksDAO booksDAO) {
+    public BooksController(BooksDAO booksDAO, PeopleDAO peopleDAO) {
         this.booksDAO = booksDAO;
+        this.peopleDAO = peopleDAO;
     }
     @GetMapping()
     public String getBooks(Model model) {
@@ -37,13 +41,25 @@ public class BooksController {
         return "books/edit";
     }
     @PatchMapping("/{id}")
-    public String editBook(@PathVariable("id") int id, @ModelAttribute("book") Book book) {
-        booksDAO.editBook(id, book);
+    public String editBook(@PathVariable("id") int id,
+                           @ModelAttribute("book") Book book,
+                           @ModelAttribute("person")Person person) {
+        System.out.println(person);
+        System.out.println(book);
+        if (book.getBookName() == null) {
+            booksDAO.editBook(id, person.getPerson_id());
+            return "redirect:/books/{id}";
+        } else {
+            booksDAO.editBook(id, book);
+        }
         return "redirect:/books";
     }
     @GetMapping("/{id}")
-    public String showBook(@PathVariable("id") int id, Model model) {
+    public String showBook(@PathVariable("id") int id, Model model,
+                           @ModelAttribute("person") Person person) {
+        System.out.println(booksDAO.getBook(id));
         model.addAttribute("book", booksDAO.getBook(id));
+        model.addAttribute("people", peopleDAO.getPeople());
         return "books/book";
     }
     @DeleteMapping("/{id}")

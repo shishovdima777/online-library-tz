@@ -18,11 +18,22 @@
 <h1 th:text="${book.getAuthor()}"></h1>,
 <h1 th:text="${book.getYear()}"></h1>
 
-<p>This book is available to take. To whom add this book?</p>
+<div th:if="${book.getPerson_id() == null}">
+    <p>This book is available to take. To whom add this book?</p>
 
-<select th:each="person : ${people}">
-    <option th:text="person.getName()"></option>
-</select>
+    <form th:method="PATCH" th:action="@{{id}(id=${book.getBook_id()})}">
+        <label for="person">Choose person: </label>
+        <select th:object="${person}" th:field="*{person_id}" id="person">
+            <option th:each="person : ${people}" th:value="${person.getPerson_id()}" th:text="${person.getName()}">
+            </option>
+        </select>
+        <input type="submit" value="assign"/>
+    </form>
+</div>
+
+<div th:unless="${book.getPerson_id() == null}">
+    <p>This book is taken by ...</p>
+</div>
 
 <a th:href="@{{id}/edit(id=${book.getBook_id()})}">Edit book</a>
 <form th:method="DELETE" th:action="@{{id}(id=${book.getBook_id()})}">

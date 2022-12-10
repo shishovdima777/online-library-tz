@@ -38,4 +38,13 @@ public class Person {
     public void setBirthYear(int birthYear) {
         this.birthYear = birthYear;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", birthYear=" + birthYear +
+                ", person_id=" + person_id +
+                '}';
+    }
 }
