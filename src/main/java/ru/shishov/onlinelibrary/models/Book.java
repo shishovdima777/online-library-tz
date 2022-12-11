@@ -1,8 +1,14 @@
 package ru.shishov.onlinelibrary.models;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 public class Book {
+    @NotEmpty(message = "This field should not be empty")
     private String bookName;
+    @NotEmpty(message = "This field should not be empty")
     private String author;
+    @Min(value = 1, message = "This field should not be less than 0")
     private int year;
     private int book_id;
     private Integer person_id;

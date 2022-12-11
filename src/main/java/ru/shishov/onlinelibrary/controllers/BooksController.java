@@ -3,16 +3,20 @@ package ru.shishov.onlinelibrary.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.shishov.onlinelibrary.dao.BooksDAO;
 import ru.shishov.onlinelibrary.dao.PeopleDAO;
 import ru.shishov.onlinelibrary.models.Book;
 import ru.shishov.onlinelibrary.models.Person;
 
+import javax.validation.Valid;
+
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
+
     private final BooksDAO booksDAO;
     private final PeopleDAO peopleDAO;
     @Autowired
@@ -31,7 +35,12 @@ public class BooksController {
         return "books/new";
     }
     @PostMapping()
-    public String addBook(@ModelAttribute("book") Book book) {
+    public String addBook(@ModelAttribute("book") @Valid Book book,
+                          BindingResult bindingResult) {
+        System.out.println(book);
+        if(bindingResult.hasErrors())
+            return "books/new";
+
         booksDAO.saveBook(book);
         return "redirect:/books";
     }
@@ -43,7 +52,7 @@ public class BooksController {
     @PatchMapping("/{id}")
     public String editBook(@PathVariable("id") int id,
                            @ModelAttribute("book") Book book,
-                           @ModelAttribute("person") Person person) {
+                           @ModelAttribute("person") Person person){
         if (book.getBookName() == null && person.getPerson_id() > 0) {
             booksDAO.editBook(id, person.getPerson_id());
             return "redirect:/books/{id}";

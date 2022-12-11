@@ -1,7 +1,13 @@
 package ru.shishov.onlinelibrary.models;
 
+import javax.validation.constraints.*;
+
 public class Person {
+    @NotEmpty(message = "Name shouldn't be empty")
+    @Pattern(regexp = "[A-z\\s]*", message = "Name should contain only Latin letters")
     private String name;
+    @NotNull(message = "Birth year shouldn't be empty")
+    @Min(value = 1, message = "Birth year should be greater than 0")
     private int birthYear;
     private int person_id;
 

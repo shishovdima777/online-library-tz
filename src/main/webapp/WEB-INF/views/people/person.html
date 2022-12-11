@@ -9,11 +9,23 @@
 </head>
 
 <style>
-    h1 { display: inline}
+    h1,p {display: inline}
 </style>
 
 <body>
     <h1 th:text="${person.getName()}"></h1>, <h1 th:text="${person.getBirthYear()}"></h1>
+    <div th:if="${books.size() > 0}">
+        <p>Books:</p>
+        <div th:each="book : ${books}">
+            <p th:text="${book.getBookName()}"></p>,
+            <p th:text="${book.getAuthor()}"></p>,
+            <p th:text="${book.getYear()}"></p>
+        </div>
+    </div>
+
+    <div th:unless="${books.size() > 0}">
+        <p>This person hasn't taken any books yet.</p>
+    </div>
 
     <a th:href="@{{id}/edit(id=${person.getPerson_id()})}">Edit</a>
 
