@@ -10,6 +10,7 @@
 
 <style>
     h1 { display: inline}
+    p { display: inline}
     a {display: block}
 </style>
 
@@ -18,21 +19,27 @@
 <h1 th:text="${book.getAuthor()}"></h1>,
 <h1 th:text="${book.getYear()}"></h1>
 
-<div th:if="${book.getPerson_id() == null}">
-    <p>This book is available to take. To whom add this book?</p>
+<div th:with="var1=${book.getPerson_id()}">
+    <div th:if="${var1 == -1}">
+        <p>This book is available to take. To whom add this book?</p>
 
-    <form th:method="PATCH" th:action="@{{id}(id=${book.getBook_id()})}">
-        <label for="person">Choose person: </label>
-        <select th:object="${person}" th:field="*{person_id}" id="person">
-            <option th:each="person : ${people}" th:value="${person.getPerson_id()}" th:text="${person.getName()}">
-            </option>
-        </select>
-        <input type="submit" value="assign"/>
-    </form>
-</div>
+        <form th:method="PATCH" th:action="@{{id}(id=${book.getBook_id()})}">
+            <label for="person">Choose person: </label>
+            <select th:object="${person}" th:field="*{person_id}" id="person">
+                <option th:each="person : ${people}" th:value="${person.getPerson_id()}" th:text="${person.getName()}">
+                </option>
+            </select>
+            <input type="submit" value="assign"/>
+        </form>
+    </div>
 
-<div th:unless="${book.getPerson_id() == null}">
-    <p>This book is taken by ...</p>
+    <div th:unless="${var1 == -1}">
+        <p>This book was taken by: </p>
+        <p th:text="${personWithBook.getName()}"></p>
+        <form th:method="PATCH" th:action="@{{id}(id=${book.getBook_id()})}">
+            <input type="submit" value="Release the book"/>
+        </form>
+    </div>
 </div>
 
 <a th:href="@{{id}/edit(id=${book.getBook_id()})}">Edit book</a>

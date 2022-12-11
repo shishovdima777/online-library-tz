@@ -5,23 +5,23 @@ public class Book {
     private String author;
     private int year;
     private int book_id;
-    private String person_id;
+    private Integer person_id;
 
     public Book() {
 
     }
 
-    public Book(String person_id, int book_id, String bookName, String author, int year) {
+    public Book(Integer person_id, int book_id, String bookName, String author, int year) {
         this.person_id = person_id;
         this.book_id = book_id;
         this.bookName = bookName;
         this.author = author;
         this.year = year;
     }
-    public String getPerson_id() {
-        return person_id;
+    public Integer getPerson_id() {
+        return person_id == null ? -1: person_id ;
     }
-    public void setPerson_id(String person_id) {
+    public void setPerson_id(Integer person_id) {
         this.person_id = person_id;
     }
     public String getBookName() {
