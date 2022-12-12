@@ -9,6 +9,7 @@ import ru.shishov.onlinelibrary.dao.BooksDAO;
 import ru.shishov.onlinelibrary.dao.PeopleDAO;
 import ru.shishov.onlinelibrary.models.Book;
 import ru.shishov.onlinelibrary.models.Person;
+import ru.shishov.onlinelibrary.util.BooksValidator;
 
 import javax.validation.Valid;
 
@@ -16,11 +17,12 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-
+    private final BooksValidator booksValidator;
     private final BooksDAO booksDAO;
     private final PeopleDAO peopleDAO;
     @Autowired
-    public BooksController(BooksDAO booksDAO, PeopleDAO peopleDAO) {
+    public BooksController(BooksValidator booksValidator, BooksDAO booksDAO, PeopleDAO peopleDAO) {
+        this.booksValidator = booksValidator;
         this.booksDAO = booksDAO;
         this.peopleDAO = peopleDAO;
     }
@@ -37,7 +39,7 @@ public class BooksController {
     @PostMapping()
     public String addBook(@ModelAttribute("book") @Valid Book book,
                           BindingResult bindingResult) {
-        System.out.println(book);
+        booksValidator.validate(book, bindingResult);
         if(bindingResult.hasErrors())
             return "books/new";
 
@@ -52,7 +54,9 @@ public class BooksController {
     @PatchMapping("/{id}")
     public String editBook(@PathVariable("id") int id,
                            @ModelAttribute("book") Book book,
-                           @ModelAttribute("person") Person person){
+                           @ModelAttribute("person") Person person,
+                           BindingResult bindingResult){
+        booksValidator.validate(book, bindingResult);
         if (book.getBookName() == null && person.getPerson_id() > 0) {
             booksDAO.editBook(id, person.getPerson_id());
             return "redirect:/books/{id}";

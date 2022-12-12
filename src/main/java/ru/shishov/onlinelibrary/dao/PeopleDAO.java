@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.shishov.onlinelibrary.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PeopleDAO {
@@ -24,6 +25,9 @@ public class PeopleDAO {
     }
     public Person getPerson(int id) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new BeanPropertyRowMapper<>(Person.class), id).stream().findAny().orElse(null);
+    }
+    public Optional<Person> getPerson(String name) {
+       return jdbcTemplate.query("SELECT * FROM Person WHERE name=?", new BeanPropertyRowMapper<>(Person.class), new Object[] {name}).stream().findAny();
     }
     public void update(Person person, int id) {
         jdbcTemplate.update("UPDATE Person SET name=?, birth_year=? WHERE person_id=?", person.getName(), person.getBirthYear(), id);
