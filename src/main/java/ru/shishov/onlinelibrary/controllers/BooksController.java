@@ -54,18 +54,9 @@ public class BooksController {
     @PatchMapping("/{id}")
     public String editBook(@PathVariable("id") int id,
                            @ModelAttribute("book") Book book,
-                           @ModelAttribute("person") Person person,
                            BindingResult bindingResult){
         booksValidator.validate(book, bindingResult);
-        if (book.getBookName() == null && person.getPerson_id() > 0) {
-            booksDAO.editBook(id, person.getPerson_id());
-            return "redirect:/books/{id}";
-        } else if (book.getBookName() == null) {
-            booksDAO.editBook(id);
-            return "redirect:/books/{id}";
-        } else {
-            booksDAO.editBook(id, book);
-        }
+        booksDAO.editBook(id, book);
         return "redirect:/books";
     }
     @GetMapping("/{id}")
@@ -80,5 +71,17 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         booksDAO.delete(id);
         return "redirect:/books";
+    }
+    @PatchMapping("/{id}/assign")
+    public String assignBook(@PathVariable("id") int id,
+                             @ModelAttribute("person") Person person) {
+        booksDAO.editBook(id, person.getPerson_id());
+        return "redirect:/books/{id}";
+    }
+
+    @PatchMapping("/{id}/release")
+    public String release(@PathVariable("id") int id) {
+        booksDAO.editBook(id);
+        return "redirect:/books/{id}";
     }
 }
