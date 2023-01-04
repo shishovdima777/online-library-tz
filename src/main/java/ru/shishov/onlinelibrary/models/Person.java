@@ -9,14 +9,13 @@ public class Person {
     @NotNull(message = "Birth year shouldn't be empty")
     @Min(value = 1, message = "Birth year should be greater than 0")
     private int birthYear;
-    private int person_id;
+    private Integer person_id;
 
     public Person() {
 
     }
 
-    public Person(int person_id, String name, int birthYear) {
-        this.person_id = person_id;
+    public Person(String name, int birthYear) {
         this.name = name;
         this.birthYear = birthYear;
     }
@@ -25,11 +24,11 @@ public class Person {
         return name;
     }
 
-    public int getPerson_id() {
+    public Integer getPerson_id() {
         return person_id;
     }
 
-    public void setPerson_id(int person_id) {
+    public void setPerson_id(Integer person_id) {
         this.person_id = person_id;
     }
 

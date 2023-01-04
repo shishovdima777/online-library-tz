@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class PeopleDAO {
+public class PersonDAO {
     private final JdbcTemplate jdbcTemplate;
     @Autowired
-    public PeopleDAO(JdbcTemplate jdbcTemplate) {
+    public PersonDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

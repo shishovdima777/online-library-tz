@@ -5,15 +5,16 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.shishov.onlinelibrary.models.Book;
+import ru.shishov.onlinelibrary.models.Person;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BooksDAO {
+public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
     @Autowired
-    public BooksDAO(JdbcTemplate jdbcTemplate) {
+    public BookDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -32,6 +33,12 @@ public class BooksDAO {
     public Optional<Book> getBook(String book_name) {
         return jdbcTemplate.query("SELECT * FROM Book WHERE book_name=?", new BeanPropertyRowMapper<>(Book.class), new Object[] {book_name}).stream().findAny();
     }
+
+    public Optional<Person> getBookOwner(int id) {
+        return jdbcTemplate.query("SELECT Person.* FROM person JOIN book ON person.person_id = book.person_id WHERE book_id = ?",
+                new BeanPropertyRowMapper<>(Person.class), new Object[]{id}).stream().findAny();
+    }
+
     public void editBook(int id, Book book) {
         jdbcTemplate.update("UPDATE Book SET book_name=?, author=?, year=? WHERE book_id=?", book.getBookName(), book.getAuthor(), book.getYear(), id);
     }
